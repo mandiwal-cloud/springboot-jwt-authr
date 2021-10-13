@@ -19,7 +19,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
     public String getOne(@PathVariable(value = "id") Long id){
         return "ram";
     }
