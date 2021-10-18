@@ -36,3 +36,14 @@ above command should give the below successfull result
 ["ram","shyam"]
 ```
 
+- run service to be exposed on node ip and can be accessed from localhost
+```
+kubectl apply -f k8s2.yaml
+NODEPORT=$(kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services springboot-jwt-authr)
+NODES=$(kubectl get nodes -o jsonpath='{ $.items[*].status.addresses[?(@.type=="InternalIP")].address }')
+for node in $NODES; do wget -q --header='Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwicm9sZXMiOiJST0xFX0FETUlOIiwiaWF0IjoxNTE2MjM5MDIyfQ.nzoTXU6kVPfv_P9_BHA4cB_SkCDvuRwRRhisEARDyfM'  -O- $node:$NODEPORT/users; done
+```
+above commands should give the below successfull result
+```
+["ram","shyam"]
+```
