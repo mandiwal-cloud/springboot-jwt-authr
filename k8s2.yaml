@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-jwt-authr
+spec:
+  selector:
+    matchLabels:
+      run: springboot-jwt-authr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: springboot-jwt-authr
+    spec:
+      containers:
+      - name: springboot-jwt-authr
+        image: springboot-jwt-authr
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8090
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-jwt-authr
+  labels:
+    run: springboot-jwt-authr
+spec:
+  selector:
+    run: springboot-jwt-authr
+  ports:
+  - port: 8090
+    nodePort: 32015
+    targetPort: 8090
+  type: NodePort
